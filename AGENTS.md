@@ -6,6 +6,8 @@ This repository serves as a central library for agent skills and an operational 
 
 - [`software-design-principles`](software-design-principles/SKILL.md): Canonical reference for 27 software design principles, Foundation heuristics, calibration tables, agent failure modes, and TypeScript worked examples.
 - [`software-design-review`](software-design-review/SKILL.md): Orchestrates multi-persona code reviews against software design principles using specialized subagents (`premise`, `structural`, `code-smells`, `efficiency`, `defensive`, `completion`).
+- [`colour-palette`](colour-palette/SKILL.md): Guides color and palette selection, OKLCH tonal scales, WCAG accessibility contrast, and UI design system themes.
+
 
 ---
 

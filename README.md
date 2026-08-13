@@ -12,6 +12,7 @@ Compatible with **Claude** (Claude Code, Anthropic API), **Antigravity** (Google
 |---|---|---|---|
 | [`software-design-principles`](software-design-principles/SKILL.md) | Canonical reference for 27 core software design principles, Foundation heuristics, trade-off calibration tables, and failure modes. | 2026-08-13 | 5.9 KB (`SKILL.md`) / 12 KB (Total) |
 | [`software-design-review`](software-design-review/SKILL.md) | Automated multi-persona code review orchestrator (`premise`, `structural`, `code-smells`, `efficiency`, `defensive`, `completion`). | 2026-08-13 | 5.5 KB (`SKILL.md`) / 44 KB (Total) |
+| [`colour-palette`](colour-palette/SKILL.md) | Color and palette design selection — OKLCH tonal scales, WCAG accessibility contrast, and UI design system themes. | 2026-08-13 | 3.2 KB (`SKILL.md`) / 4 KB (Total) |
 
 ### Details
 
@@ -26,6 +27,12 @@ Compatible with **Claude** (Claude Code, Anthropic API), **Antigravity** (Google
 - **Size**: 5.5 KB (`SKILL.md`) / 44 KB (Folder Total)
 - **Scope**: Automated code review orchestrator. Spawns six specialized subagent personas to evaluate code diffs or architecture against software design principles and returns a triaged findings table.
 - **Use when**: Reviewing pull requests, evaluating complex code changes, or auditing existing codebases.
+
+#### 3. [`colour-palette`](colour-palette/SKILL.md)
+- **Last Updated**: 2026-08-13
+- **Size**: 3.2 KB (`SKILL.md`) / 4 KB (Folder Total)
+- **Scope**: Color selection, OKLCH tonal scale generation, WCAG AA contrast verification, and UI theme distribution (60-30-10 rule).
+- **Use when**: Choosing, generating, or reviewing colors, CSS custom property themes, UI palettes, status bars, or terminal themes.
 
 ---
 
