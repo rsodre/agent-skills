@@ -36,12 +36,31 @@ Compatible with **Claude** (Claude Code, Anthropic API), **Antigravity** (Google
 
 ---
 
+## 🌐 Curated Third-Party Skills (Ready on Demand)
+
+A curated catalog of recommended third-party agent skills. These skills are documented and ready for AI agents to clone or submodule into this library or your target projects whenever requested:
+
+| Skill | Repository | Description | Status |
+|---|---|---|---|
+| `threejs-tsl-webgpu` | [dgreenheck/webgpu-claude-skill](https://github.com/dgreenheck/webgpu-claude-skill) | Three.js + WebGPU graphics & compute pipeline generation, TSL shader authoring, and browser graphics integration. | Ready to install on request |
+| `legal-skills` | [gfodor/legal-skills](https://github.com/gfodor/legal-skills) | Software contract review, terms of service, privacy compliance (GDPR/CCPA), IP licensing, and open-source compliance. | Ready to install on request |
+
+### How to Request Installation
+Simply instruct your AI agent:
+- *"Install `webgpu-claude-skill` into this skills library."*
+- *"Add `legal-skills` to my current project."*
+
+The agent will clone or submodule the repository, register its YAML frontmatter, and update the skills table in [`README.md`](README.md).
+
+---
+
 ## 🤖 Agent Instructions & Workflows
 
 Complete operational instructions for AI agents creating, installing, using, and updating skills are located in **[`AGENTS.md`](AGENTS.md)**:
 
 - **[Creating New Skills](AGENTS.md#-workflow-creating-new-skills)**: Directory layout, `SKILL.md` specification, TypeScript guidelines, progressive disclosure rules, and mandatory README metadata maintenance.
 - **[Installing Skills in Projects](AGENTS.md#-workflow-installing-skills-in-projects)**: Installation paths for Claude (`.claude/skills/`), Antigravity (`.agents/skills/` or `skills.json`), and Codex (`.skills/`).
+- **[Curated Third-Party Skills](AGENTS.md#-curated-third-party-skills-ready-to-install)**: Procedures for installing third-party repositories on demand.
 - **[Using Skills in Projects](AGENTS.md#-workflow-using-skills-in-projects)**: Automatic trigger matching, explicit invocations, and subagent review delegation.
 - **[Updating & Syncing Skills](AGENTS.md#-workflow-updating--syncing-skills)**: Keeping README metadata updated, symlinking, git submodules, and automated sync scripts across projects.
 

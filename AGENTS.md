@@ -8,6 +8,20 @@ This repository serves as a central library for agent skills and an operational 
 - [`software-design-review`](software-design-review/SKILL.md): Orchestrates multi-persona code reviews against software design principles using specialized subagents (`premise`, `structural`, `code-smells`, `efficiency`, `defensive`, `completion`).
 - [`colour-palette`](colour-palette/SKILL.md): Guides color and palette selection, OKLCH tonal scales, WCAG accessibility contrast, and UI design system themes.
 
+---
+
+## 🌐 Curated Third-Party Skills (Ready to Install)
+
+The following external skills are curated for optional use across projects. When the user asks to install any of these skills:
+
+1. Clone or add the skill repository into this library or the target project's skills directory.
+2. Verify that `SKILL.md` contains valid YAML frontmatter (`name`, `description`).
+3. Move the skill from the Curated Third-Party list to the `Available Skills` table in [`README.md`](README.md) and update its metadata (**Date Updated** and **Size in KB**).
+
+| Skill | Repository | Description | Status |
+|---|---|---|---|
+| `threejs-tsl-webgpu` | [dgreenheck/webgpu-claude-skill](https://github.com/dgreenheck/webgpu-claude-skill) | Three.js + WebGPU graphics & compute pipeline generation, TSL shader authoring, and browser graphics integration. | Ready on demand |
+| `legal-skills` | [gfodor/legal-skills](https://github.com/gfodor/legal-skills) | Software contract review, terms of service, privacy compliance (GDPR/CCPA), IP licensing, and open-source compliance. | Ready on demand |
 
 ---
 
