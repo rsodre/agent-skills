@@ -1,0 +1,7 @@
+{
+  "name": "all",
+  "description": "Meta-plugin: installs core, web and web3 together.",
+  "version": "1.0.0",
+  "author": { "name": "rsodre" },
+  "dependencies": ["core@rsodre-skills", "web@rsodre-skills", "web3@rsodre-skills"]
+}

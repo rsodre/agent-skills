@@ -1,0 +1,11 @@
+{
+  "name": "core",
+  "description": "Stack-agnostic engineering discipline: software design principles, multi-persona design review, spec discipline, and agent workflow conventions.",
+  "version": "1.0.0",
+  "author": {
+    "name": "rsodre",
+    "url": "https://github.com/rsodre"
+  },
+  "homepage": "https://github.com/rsodre/agent-skills/tree/main/plugins/core",
+  "license": "MIT"
+}

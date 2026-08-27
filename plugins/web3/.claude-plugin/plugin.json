@@ -1,0 +1,11 @@
+{
+  "name": "web3",
+  "description": "Dapp chain-layer conventions for EVM (wagmi + viem) and Starknet (starknet.js v10 + Cartridge + Torii).",
+  "version": "1.0.0",
+  "author": {
+    "name": "rsodre",
+    "url": "https://github.com/rsodre"
+  },
+  "homepage": "https://github.com/rsodre/agent-skills/tree/main/plugins/web3",
+  "license": "MIT"
+}

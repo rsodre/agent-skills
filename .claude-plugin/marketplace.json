@@ -1,0 +1,51 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "rsodre-skills",
+  "description": "Personal agent skills library: software design principles and review, spec and agent workflow discipline, TypeScript/React/Next.js conventions, and dapp chain-layer rules.",
+  "owner": {
+    "name": "rsodre",
+    "url": "https://github.com/rsodre"
+  },
+  "plugins": [
+    {
+      "name": "all",
+      "description": "Meta-plugin: installs core, web and web3 together. Use when a project wants the whole library; otherwise install the individual plugins.",
+      "author": {
+        "name": "rsodre"
+      },
+      "category": "development",
+      "source": "./plugins/all",
+      "homepage": "https://github.com/rsodre/agent-skills/tree/main/plugins/all"
+    },
+    {
+      "name": "core",
+      "description": "Stack-agnostic engineering discipline: 27 software design principles, a multi-persona design review orchestrator, agent-facing documentation rules, and conventions for running coding agents in a shared repo.",
+      "author": {
+        "name": "rsodre"
+      },
+      "category": "development",
+      "source": "./plugins/core",
+      "homepage": "https://github.com/rsodre/agent-skills/tree/main/plugins/core"
+    },
+    {
+      "name": "web",
+      "description": "TypeScript web stack conventions: Biome/TypeScript/React/Tailwind 4 coding style, Next.js App Router structure and data flow, OKLCH colour palette design, and pnpm monorepo + publishable-package rules.",
+      "author": {
+        "name": "rsodre"
+      },
+      "category": "development",
+      "source": "./plugins/web",
+      "homepage": "https://github.com/rsodre/agent-skills/tree/main/plugins/web"
+    },
+    {
+      "name": "web3",
+      "description": "Dapp chain-layer rules: the react-query carve-out, native bigint numerics, address/ABI registry, read/write hooks and transaction toasts \u2014 EVM (wagmi + viem) and Starknet (starknet.js v10 + Cartridge + Torii) kept strictly separate.",
+      "author": {
+        "name": "rsodre"
+      },
+      "category": "development",
+      "source": "./plugins/web3",
+      "homepage": "https://github.com/rsodre/agent-skills/tree/main/plugins/web3"
+    }
+  ]
+}
