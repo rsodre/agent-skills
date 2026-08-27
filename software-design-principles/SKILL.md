@@ -71,6 +71,34 @@ Canonical reference for software design decisions. For reviewing complex diffs u
 
 **Tie-breakers**: Choose option easiest to reverse; keep next change cheap; protect seen axes of change.
 
+## Guardrails: writing invariants down
+
+A principle is general advice; a **guardrail** is a specific invariant *this* architecture depends
+on. Keep a short list of them in `CLAUDE.md`, headed so that breaking one reads as **drift, not a
+shortcut** — an agent weighs a "guideline" against convenience and loses.
+
+A guardrail is one line with three parts:
+
+1. **The invariant, stated absolutely** — "no frame pixel is ever read by the CPU"; "a shared package
+   never branches on its host"; "modulation never writes the document".
+2. **The pointer** to the spec section that owns the detail.
+3. **The consequence**, concretely — what breaks, and how fast. "A leak stalls the pipeline in under
+   a second." "An evaluator that wrote its result back would make every LFO sample an undo step."
+
+Rules for the list itself:
+
+- **State the exception in the guardrail, or it isn't one.** Name the single permitted violation and
+  why it is permitted; anything else that does it is a defect.
+- **"A rule with one exception is a rule that holds in three places and fails in the fourth."** If
+  something must be universal, say that nothing special-cases it — no stage that exists by absence,
+  no node the engine treats differently.
+- **Prefer the phrasing that closes the loophole.** "Simplification is presentation only" beats "try
+  not to skip nodes", because the second reads as advice.
+- **A guardrail is not a principle.** It names *this* codebase's objects and is worth writing only
+  because it is expensive and non-obvious. Ten to twenty is a healthy list; fifty is a manual.
+- **Prove it where you can.** An invariant with a test, a lint rule or a type that enforces it is one
+  nobody has to remember.
+
 ## Examples & Failure Modes
 
 - **TypeScript Worked Examples**: See [`references/examples.md`](references/examples.md) for I/O boundary error handling, persistence metadata, extraction thresholds, and async boundary batching.

@@ -1,0 +1,107 @@
+{
+  // Annotated workspace Biome config. Copy to the repo root as `biome.jsonc` (JSONC, because
+  // every rule downgrade must carry a comment saying why). Nested packages get at most a
+  // `{ "$schema": "…", "extends": "//" }` stub — never a second real config.
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/.next/**",
+      // Framework-owned files: Next.js rewrites these on build. Don't fight the generator.
+      "!**/tsconfig.json",
+      "!**/next-env.d.ts",
+      // Generated / fetched / vendored data: not hand-edited, so not ours to format.
+      "!**/src/generated/**",
+      "!**/artifacts/**",
+      // Biome 2.5+ parses Tailwind directives (see `css.parser` below), so the Tailwind entry
+      // stylesheet stays linted. On older Biome, exclude it instead: "!**/styles/main.css".
+      "!**/*.html",
+      "!**/*.md",
+      "!**/*.svg"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always",
+      // Omit parens on single-param arrows: `s => s.foo` (store selectors, predicates).
+      "arrowParentheses": "asNeeded"
+    }
+  },
+  "css": {
+    "parser": {
+      // Parse Tailwind 4 directives (@import 'tailwindcss', @theme, @apply) instead of
+      // excluding the stylesheet from Biome entirely. Requires Biome 2.5+.
+      "tailwindDirectives": true
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        // Import auto-sorting fights the manual grouping (react → external → local).
+        "organizeImports": "off"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+
+      // ── Permanent, principled deviations ───────────────────────────────────────────────
+      "suspicious": {
+        // The `!= null` idiom (catches null AND undefined) is deliberate; every other loose
+        // comparison is a bug.
+        "noDoubleEquals": {
+          "level": "error",
+          "options": { "ignoreNull": true }
+        },
+        // MUST stay off: its autofix rewrites directory content-excludes (`!**/dist/**`) to the
+        // bare form, which stops excluding the directory's *contents*. Leave the /** globs intact.
+        "useBiomeIgnoreFolder": "off"
+      },
+
+      // ── Tracked debt: each line is a promise to re-tighten, not a permanent exemption ───
+      // In a clean repo, DELETE this whole block. Downgrades inherited from a port are the
+      // origin repo's legacy, not permission.
+      // "suspicious": {
+      //   "noExplicitAny": "warn",        // remaining `any`s are tracked debt
+      //   "noArrayIndexKey": "off"        // static, non-reordering lists (grids, icon rows)
+      // },
+      // "correctness": {
+      //   "useExhaustiveDependencies": "off", // curated sync-on-change effects; see CODING_STYLE
+      //   "useHookAtTopLevel": "warn",        // render-N-hook-components pattern
+      //   "useJsxKeyInIterable": "warn"
+      // },
+      // "a11y": {
+      //   "noStaticElementInteractions": "warn",
+      //   "useKeyWithClickEvents": "off",
+      //   "noAmbiguousAnchorText": "warn",
+      //   "useIframeTitle": "warn",
+      //   "useAltText": "warn"
+      // },
+      // "complexity": {
+      //   "noStaticOnlyClass": "off",     // intentional static-namespace classes
+      //   "noUselessFragments": "warn",
+      //   "useLiteralKeys": "warn"
+      // },
+      // "performance": {
+      //   "noImgElement": "off"           // base64/SVG/canvas-overlay images; next/image adds nothing
+      // }
+    }
+  }
+}

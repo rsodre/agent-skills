@@ -7,6 +7,10 @@ This repository serves as a central library for agent skills and an operational 
 - [`software-design-principles`](software-design-principles/SKILL.md): Canonical reference for 27 software design principles, Foundation heuristics, calibration tables, agent failure modes, and TypeScript worked examples.
 - [`software-design-review`](software-design-review/SKILL.md): Orchestrates multi-persona code reviews against software design principles using specialized subagents (`premise`, `structural`, `code-smells`, `efficiency`, `defensive`, `completion`).
 - [`colour-palette`](colour-palette/SKILL.md): Guides color and palette selection, OKLCH tonal scales, WCAG accessibility contrast, and UI design system themes.
+- [`coding-style`](coding-style/SKILL.md): Formatting (Biome), TypeScript, React, Tailwind 4 + cva `variant`/`size` APIs, TanStack Query data access, the icons library (lucide behind one registry), zustand stores, and Storybook — with `biome.jsonc`, icons and Storybook references.
+- [`nextjs`](nextjs/SKILL.md): Next.js App Router structure + the data-flow standard (query routes + react-query, server actions + `useActionMutation`, service layer, sonner toasts), with copy-ready reference hooks.
+- [`ts-monorepo`](ts-monorepo/SKILL.md): pnpm workspace, catalog dependencies, publishable-package layout, build order, and Vitest conventions.
+- [`web3-chain-layer`](web3-chain-layer/SKILL.md): Dapp chain layer, with EVM (wagmi + viem) and Starknet (Starknet Start + starknet.js v10 + Cartridge + Torii) specifics in separate references.
 
 ---
 
