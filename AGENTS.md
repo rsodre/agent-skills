@@ -11,6 +11,8 @@ This repository serves as a central library for agent skills and an operational 
 - [`nextjs`](nextjs/SKILL.md): Next.js App Router structure + the data-flow standard (query routes + react-query, server actions + `useActionMutation`, service layer, sonner toasts), with copy-ready reference hooks.
 - [`ts-monorepo`](ts-monorepo/SKILL.md): pnpm workspace, catalog dependencies, publishable-package layout, build order, and Vitest conventions.
 - [`web3-chain-layer`](web3-chain-layer/SKILL.md): Dapp chain layer, with EVM (wagmi + viem) and Starknet (Starknet Start + starknet.js v10 + Cartridge + Torii) specifics in separate references.
+- [`spec-discipline`](spec-discipline/SKILL.md): How agent-facing docs stay true — one job per doc, `DECISIONS → SPECS → IMPL` with the copy deleted in the same edit, facts not history, ✅/☑️ phase ticking.
+- [`agent-workflow`](agent-workflow/SKILL.md): Running agents in a shared repo — ask the user on important decisions (always with a recommendation), agent-only ports, `_inbox/`, git rules (the user commits unless authorised; check for uncommitted work before starting), slash commands, the end-of-task gate.
 
 ---
 
