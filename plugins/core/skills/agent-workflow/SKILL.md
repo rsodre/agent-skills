@@ -158,8 +158,13 @@ State what is *not* in scope, and which file is the authority for the ambiguous 
 
 ## Setting a repo up for agents
 
-- `CLAUDE.md` — the index: what this is, which spec owns what, working rules, guardrails. See
-  `spec-discipline`.
+**`README.md` is for humans what `CLAUDE.md` and `AGENTS.md` are for agents.** Same project, same
+structure, same commands — pitched at a different reader. Keep each brief and direct.
+`spec-discipline` has the table of what every doc holds and never holds.
+
+- `README.md` — the human entry point: what the project is, its structure, its dependencies, and the
+  commands to run it. Not a walkthrough, not a rationale.
+- `CLAUDE.md` — the index: what this is, which spec owns what, working rules, guardrails.
 - `AGENTS.md` — a pointer file for other tools; it duplicates nothing.
 - `.claude/commands/` — the repeatable procedures.
 - `.claude/skills/` — project skills, plus whichever library skills the project installs.

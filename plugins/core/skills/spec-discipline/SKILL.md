@@ -33,13 +33,16 @@ Give every doc a single audience and a single kind of content, and say so in its
 | `<AREA>_DECISIONS.md` | what is still **open**, what was **rejected and why** | anything settled |
 | `<AREA>_IMPL.md` | the thing **as built**: constraints an API imposes that its own docs don't, approaches tried and abandoned **with their numbers** | the contract (that's SPECS), a usage manual |
 | `GLOSSARY.md` | one line per word: the gloss, the identifier carrying it, the section that owns it, **and what it does not mean** | facts of its own — it defines nothing, so it cannot drift into a second spec |
-| `README.md` | structure, requirements, commands, operations — **for humans** | walkthroughs, rationale, reading guides |
+| `README.md` | the project **for humans**: description, structure, dependencies, requirements, commands, operations | walkthroughs, rationale, reading guides |
 | `PLAN.md` | phases, gates, what is settled *elsewhere* via `→ SPECS` pointers | restated specification |
 
 - **An `IMPL` doc needs a "what does not belong here" section.** It is the only thing that stops it
   becoming a manual for code that is already its own reference.
 - **A second agent's file is a pointer file.** `AGENTS.md` (or any other tool's entry point) names
   the authority for each topic and duplicates none of it.
+- **`README.md` is the human's `CLAUDE.md`.** Same project, same structure, same commands, written
+  for a person instead of an agent. Both stay brief and direct — a doc nobody finishes is a doc
+  nobody follows.
 
 ## Facts flow one way, and leave no copy behind
 
