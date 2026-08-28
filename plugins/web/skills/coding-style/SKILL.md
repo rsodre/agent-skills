@@ -3,9 +3,10 @@ name: coding-style
 description: >
   Binding formatting, TypeScript, React, Tailwind 4 and Biome rules for TypeScript projects. Use
   when writing or reviewing any .ts/.tsx code, setting up a project's toolchain, configuring Biome,
-  building `ui/` primitives with cva variants and sizes, adding an icon or an icon library, writing
-  Storybook stories, placing client state, reaching for `fetch` or a data hook, or deciding how
-  something gets styled.
+  writing a component or a hook (props, memoisation, effects, keys, state), building `ui/`
+  primitives with cva variants and sizes, adding an icon or an icon library, writing Storybook
+  stories, placing client state, reaching for `fetch` or a data hook, or deciding how something
+  gets styled.
 ---
 
 # Coding Style
@@ -96,20 +97,171 @@ traps encoded there:
 
 ## React
 
-- **Object stability**: never assign an object or array literal to a variable in the component body
-  when it feeds another hook's deps — it is a new reference every render. Wrap in `useMemo`.
+### Props & referential stability
+
+- **Every object or array passed as a prop is memoised with `useMemo`, and every function prop with
+  `useCallback`.** A literal written in JSX is a brand-new reference on every render: it defeats
+  `memo` on the child, re-fires every child effect that lists it, and re-runs every downstream
+  `useMemo` keyed on it. The cost of getting it right is one line; the cost of finding it later is
+  an afternoon, because nothing is *broken* — it is only slow, or blinking, or refetching.
   ```tsx
-  const config = { apiKey };                      // ❌ new reference every render
-  const config = useMemo(() => ({ apiKey }), [apiKey]); // ✅ stable
+  // ❌ new object and new function on every parent render
+  <Chart options={{ grid: true }} rows={rows.filter(Boolean)} onSelect={(id) => setSelected(id)} />
+
+  // ✅ stable across renders
+  const options = useMemo(() => ({ grid: true }), []);
+  const visibleRows = useMemo(() => rows.filter(Boolean), [rows]);
+  const onSelect = useCallback((id: string) => setSelected(id), []);
+  <Chart options={options} rows={visibleRows} onSelect={onSelect} />
   ```
-- **`useMemo` for expensive calculations and for reference stability** — not for everything.
-- **State updates based on previous state use the functional form**: `setState(prev => …)`.
+- **Hoisting beats memoising.** A value that depends on nothing is a module-level `const`, not a
+  `useMemo(…, [])` — no hook, no deps, no render cost.
+- **The dependency list is the whole point.** A `useCallback` whose deps contain a value that is
+  itself new every render is a no-op with extra syntax. Memoise that value first, or drop the dep:
+  `setState`, `dispatch` and store setters are already stable, and the functional form
+  (`setState(prev => …)`) is how a handler loses its last dep.
+- **Memoise the prop, and wrap the child in `memo` where it pays** — list rows, charts, canvases,
+  anything with a heavy subtree. The two are one mechanism: a stable prop skips a render only if the
+  child is memoised, and a memoised child skips one only while its props hold still. `memo` on every
+  leaf is noise — the comparison costs more than the render it skips. Which components earn it, and
+  what half a pair costs, is § Render cost.
+- **Scalars need nothing.** Strings, numbers and booleans compare by value; memoising them is
+  clutter. The rule is about references: objects, arrays, functions, JSX elements.
+- **A context value is an object prop handed to every consumer** — memoise it, or every consumer in
+  the tree re-renders whenever the provider does. Split contexts by change rate rather than shipping
+  one grab-bag value.
+- **`useMemo` earns its place for expensive calculations and for reference stability** — those two
+  reasons. Not as a reflex on every expression.
+
+### Render cost
+
+Everything above is about reference identity; this is what identity is *for*. Reach for it when a
+profile says so — and read a profile's two numbers as two different problems. `Button ×170, 3ms` is
+a **count** problem: memoise it, stabilise what it is handed. `ParamControl ×50, 3ms` is a
+**self-time** problem: `memo` will not touch it, and the work inside the body is what moves or gets
+memoised. Same total, opposite fixes.
+
+**The rules.**
+
+- **`memo` and `useCallback` are one mechanism, and half of it does nothing.** A `useCallback`
+  handed to an unmemoised child costs a hook and buys nothing; a memoised child handed a fresh
+  arrow re-renders exactly as before, with a shallow compare added on top. Never ship one side
+  without the other, in either direction — which makes the `useCallback` at a memoised component's
+  call site load-bearing rather than decorative. The exception is a prop the child lists in a hook's
+  deps: that one is memoised for correctness whatever the child is.
+- **Memoise by count, not by feeling.** What is worth wrapping is what is *numerous* — the icon, the
+  icon button, the row mark, the thing a rack draws dozens of and a hover redraws all of — because
+  there its per-instance cost is the whole of its cost. **Write the list down** in the project's
+  docs: "don't add a `useCallback` for a component that is not memoised" is unfollowable unless a
+  caller can see which ones are.
+- **A constant element beats a memoised component.** JSX that takes no props is a module-level
+  constant, and a list of them is one `useMemo`: React compares elements by reference and skips the
+  subtree outright rather than re-rendering it into the same thing.
+  ```tsx
+  const UNFED_MARK = <Icon name="unfed" size="xs" />;  // ✅ built once, compared by reference
+  ```
+- **Hoist empty literals too.** `[]` and `{}` written in a call are new every render and defeat the
+  memo they are handed to; a shared `EMPTY_ROWS` const costs nothing and always compares equal.
+- **A handler built inside `.map()` cannot be a `useCallback`, so the loop body becomes a small
+  memoised component** which mints its own handlers from what it was handed.
+  ```tsx
+  // ❌ a fresh function per row, per render — every memoised row re-renders
+  {rows.map(row => <Row key={row.id} onRemove={() => remove(row.id)} />)}
+
+  // ✅ the row is a memoised component and closes over its own id
+  const Row = memo(function Row({ id, remove }: RowProps) {
+    const onRemove = useCallback(() => remove(id), [remove, id]);
+    return <IconButton icon={DeleteIcon} label="Remove" onClick={onRemove} />;
+  });
+  ```
+- **Pass ingredients, not closures.** Hand a per-row component the values its handlers need
+  (`moveUpTo`, `removable`) rather than closures built over them in the parent. A closure is new by
+  construction; a number and a boolean are not.
+- **A pointer-driven render makes every unmemoised derivation cost pointer-rate.** Hover, drag and
+  pointer-move state re-run the component body per event, so anything derived there is a `useMemo`
+  or is moved out of the component that holds the state.
+- **Subscribe at the leaf.** A parent that reads a value only to pass it down re-renders its whole
+  subtree whenever it changes; the leaf that displays it reads it directly (see § Client state).
+
+**Traps that look free.**
+
+- **A CSS-only tooltip renders its body at all times.** No portal and no measurement is the trade it
+  exists to make; the cost is that a tip built per row is *rendered* per row whether or not anyone is
+  pointing at one. A tip whose content is more than a string gets its own memoised component and
+  props that hold still.
+- **A control used as a spacer pays a control's price.** Reserving a mark's width is a blank
+  element, never an invisible or disabled instance of the real control — that one still builds its
+  icon, its variants and its handlers to draw nothing.
+- **`cn` parses every class string it is given, so merging three times up a wrapper chain parses the
+  same classes three times.** A component composing pieces concatenates them with `clsx` and lets
+  the root merge once. This is exact rather than approximate — `twMerge` resolves left to right, so
+  a prefix merged early and the whole string merged once give the same answer — but **assert that on
+  the project's real overrides** rather than trusting it, since it is the property the flattening
+  rests on.
+- **An absent optional prop is `undefined`, not `''`.** An empty string is still a class string `cn`
+  parses and still a value every branch has to consider, where `undefined` is what "optional"
+  already means. (A controlled input's `value` is the opposite rule — § Rendering.)
+
+**When you do memoise.**
+
+- **The type widens to `ComponentType<P>`.** `memo` returns an object React calls, not a function a
+  caller could, so a `(props: P) => ReactElement` alias stops describing it the moment it is wrapped.
+- **Set `displayName`** on the memoised export, or it is anonymous in the profiler — and the
+  profiler is the only place this work is visible.
+- **Walk up after wrapping a leaf.** An `Impl` name still in the profile is the tell that the memo
+  is skipping nothing, because the parent is handing it something new every render. The fix is at
+  the caller, not the leaf.
+- **Don't double-guard.** A memoised component whose only child is a memoised component with the
+  same props buys one skipped render for two shallow compares.
+
+### Hooks
+
+- **Hooks run at the top level, unconditionally, in the same order every render.** No hook inside a
+  condition, loop, early return or callback. An early `return null` goes *after* the last hook.
+- **Expensive initial state uses the lazy form**: `useState(() => parse(raw))`, never
+  `useState(parse(raw))` — the eager form runs the work on every render and throws the result away.
+- **A value that does not render is a ref, not state.** Timers, subscriptions, latest-value mirrors,
+  scroll positions, "have I done this once" flags: `useRef`. Calling `setState` for something never
+  read in JSX is a render nobody asked for.
+- **Effects synchronise with something outside React** — a subscription, an event listener, an
+  imperative widget, the document title. They are not for computing state from props: derive during
+  render, and memoise the derivation if it is expensive.
 - **Never set state unconditionally inside `useEffect`** — that is the infinite-loop shape.
+- **State updates based on previous state use the functional form**: `setState(prev => …)`.
+- **Reset state on identity change with `key`, not an effect.** `<Editor key={docId} />` remounts
+  with fresh state; an effect that clears fields when `docId` changes renders the stale state first.
+- **Every effect cleans up what it started** — listeners, timers, subscriptions, observers — and
+  async work carries an `AbortController` or a cancelled flag, so a resolved promise never writes
+  into an unmounted or superseded render.
 - **No `useEffect` for data fetching** — see § Data access below; reads are `useQuery` hooks.
 - **Dependency arrays are deliberate.** Projects that curate sync-on-change effects turn
   `useExhaustiveDependencies` off because its suggestions are mostly false positives there — that is
   a licence to *omit a dep on purpose*, never to omit one by accident. If the rule is on, satisfy it;
   if it is off, an incomplete array needs a comment saying why.
+- **A repeated hook sequence is a custom hook.** It returns a stable shape, and if it returns an
+  object, that object is memoised like any other — a custom hook is a prop factory.
+
+### Rendering
+
+- **`key` is a stable domain id, never the array index.** With index keys, an insert or a reorder
+  hands row 3's state, focus and animation to a different row's data. Reads as data corruption.
+- **Never declare a component inside another component.** It is a new type every render, so React
+  unmounts and remounts the whole subtree — state lost, inputs blurred, effects re-run. Hoist it to
+  module scope and pass props.
+- **Conditional rendering is a ternary, not `&&`.** `count && <List />` renders a literal `0` when
+  the count is zero; `items.length > 0 ? <List /> : null` says what it means.
+- **State is replaced, never mutated.** `setItems([...items, next])`, not `items.push(next)` — a
+  mutated array is the same reference, so nothing re-renders and `memo` children never update.
+- **A controlled input never receives `undefined`.** `value={name ?? ''}` — going from `undefined` to
+  a value flips the input from uncontrolled to controlled and React warns and drops keystrokes.
+- **Generated ids come from `useId`**, never `Math.random()` or a module counter: those differ
+  between server and client render and break hydration.
+- **Object stability applies to locals too**: never assign an object or array literal to a variable
+  in the component body when it feeds another hook's deps.
+  ```tsx
+  const config = { apiKey };                           // ❌ new reference every render
+  const config = useMemo(() => ({ apiKey }), [apiKey]); // ✅ stable
+  ```
 - **`catch {}`** when the error is unused, never `catch (e) {}`.
 
 ## Client state (zustand)
