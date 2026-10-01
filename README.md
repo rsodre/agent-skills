@@ -42,6 +42,7 @@ symlink or copy them. See [Installing Skills in Projects](AGENTS.md#-workflow-in
 | [`software-design-principles`](plugins/core/skills/software-design-principles/SKILL.md) | `core` | Canonical reference for 27 core software design principles, Foundation heuristics, trade-off calibration tables, how to write architecture guardrails, and failure modes. | 2026-08-27 | 8.0 KB (`SKILL.md`) / 12 KB (Total) |
 | [`software-design-review`](plugins/core/skills/software-design-review/SKILL.md) | `core` | Automated multi-persona code review orchestrator (`premise`, `structural`, `code-smells`, `efficiency`, `defensive`, `completion`). | 2026-08-13 | 5.5 KB (`SKILL.md`) / 44 KB (Total) |
 | [`colour-palette`](plugins/web/skills/colour-palette/SKILL.md) | `web` | Color and palette design selection — OKLCH tonal scales, WCAG accessibility contrast, and UI design system themes. | 2026-08-13 | 3.2 KB (`SKILL.md`) / 4 KB (Total) |
+| [`lucide-icons`](plugins/web/skills/lucide-icons/SKILL.md) | `web` | Authoring and reviewing custom icons in the lucide style: the grid, safe zone, radii and gaps, lucide's own dots/points/rings measured from the set, the `createLucideIcon` pattern, and a render-and-report script. | 2026-09-23 | 12 KB (`SKILL.md`) / 40 KB (Total) |
 | [`coding-style`](plugins/web/skills/coding-style/SKILL.md) | `web` | Binding formatting, TypeScript, React, Tailwind 4 and Biome rules — imports, look-before-you-draw reuse, `cn()`/cva `variant`+`size` APIs, TanStack Query data access, the icons library, zustand stores, Storybook, and annotated `biome.jsonc` / icons / Storybook references. | 2026-08-27 | 36 KB (`SKILL.md`) / 56 KB (Total) |
 | [`nextjs`](plugins/web/skills/nextjs/SKILL.md) | `web` | Next.js App Router conventions: routes as mount points, pages as component folders, providers — plus the data-flow standard (query routes + react-query, server actions + `useActionMutation`, service layer, sonner toasts) with copy-ready hooks. | 2026-08-27 | 16 KB (`SKILL.md`) / 32 KB (Total) |
 | [`ts-monorepo`](plugins/web/skills/ts-monorepo/SKILL.md) | `web` | pnpm workspace + publishable-package conventions: catalog/`workspace:` protocol, package boundaries (never branch on the host), single-source root config, toolchain pinning, ESM exports maps, build order, Vitest rules. | 2026-08-27 | 12 KB (`SKILL.md`) / 12 KB (Total) |
@@ -69,37 +70,43 @@ symlink or copy them. See [Installing Skills in Projects](AGENTS.md#-workflow-in
 - **Scope**: Color selection, OKLCH tonal scale generation, WCAG AA contrast verification, and UI theme distribution (60-30-10 rule).
 - **Use when**: Choosing, generating, or reviewing colors, CSS custom property themes, UI palettes, status bars, or terminal themes.
 
-#### 4. [`coding-style`](plugins/web/skills/coding-style/SKILL.md)
+
+#### 4. [`lucide-icons`](plugins/web/skills/lucide-icons/SKILL.md)
+- **Last Updated**: 2026-09-23
+- **Size**: 12 KB (`SKILL.md`) / 40 KB (Folder Total)
+- **Scope**: Drawing an icon that belongs to the lucide set — the 24-unit canvas, 1px safe zone measured in ink, 2/1/2.41 corner radii, the 2px gap, pixel alignment, weight against `circle` and `square` — plus what the 2,007 icons actually do for dots, points, rings, arrow heads, panels and lists, the `createLucideIcon` authoring pattern with shared geometry and a rounded-polygon helper, and `scripts/render-icon.mjs`, which loads a `custom.tsx` (lucide-react stubbed), draws each glyph on the grid and at 12–24px on light and dark beside the two references, and reports rule breaks.
+- **Use when**: Adding, redrawing or reviewing a custom icon, when a glyph looks wrong at small sizes, or when deciding whether to author or pick.
+#### 5. [`coding-style`](plugins/web/skills/coding-style/SKILL.md)
 - **Last Updated**: 2026-08-27
 - **Size**: 36 KB (`SKILL.md`) / 56 KB (Folder Total)
 - **Scope**: Formatting and linting via Biome (annotated `references/biome.jsonc`), import/file organisation, TypeScript rules, React discipline (memoised object/function props, hooks, rendering, render cost), zustand client state, Tailwind 4 token-driven styling, look-before-you-draw component reuse, cva `variant`/`size` primitive APIs, TanStack Query for all data access (never a bare `fetch`), the icons-library pattern (never import lucide directly), Storybook conventions (primitives + modules only, one story per component), external-API error handling, and hard-won CSS/canvas traps. Radix is explicitly out; icons are `lucide-react`.
 - **Use when**: Writing or reviewing any `.ts`/`.tsx`, setting up a toolchain, configuring Biome, or building `ui/` primitives.
 
-#### 5. [`nextjs`](plugins/web/skills/nextjs/SKILL.md)
+#### 6. [`nextjs`](plugins/web/skills/nextjs/SKILL.md)
 - **Last Updated**: 2026-08-27
 - **Size**: 16 KB (`SKILL.md`) / 32 KB (Folder Total)
 - **Scope**: Part 1 — App Router structure (`app/` is routing only, pages as component folders, providers, hooks layout, content routes, framework traps). Part 2 — the data-flow standard: API query routes + one react-query hook per query, server actions + `useActionMutation`, external mutation routes, the shared service layer, and centralised sonner toasts. Ships copy-ready `useActionMutation`, `useQueryInvalidate`, `handleApiError` and `ElapsedTimeBadge` implementations in `references/`.
 - **Use when**: Adding a route, page, provider, API route, server action or react-query hook — or reviewing any of them.
 
-#### 6. [`ts-monorepo`](plugins/web/skills/ts-monorepo/SKILL.md)
+#### 7. [`ts-monorepo`](plugins/web/skills/ts-monorepo/SKILL.md)
 - **Last Updated**: 2026-08-27
 - **Size**: 12 KB (`SKILL.md`) / 12 KB (Folder Total)
 - **Scope**: pnpm workspace shape, the catalog and `workspace:` protocol, install-script policy (`allowBuilds`), toolchain pinning, publishable-package rules (zero-dep core, peer frameworks, ESM exports maps, `__` internals, packaging gates), bundler-builds/`tsc`-typechecks split, sequential build order, and Vitest conventions.
 - **Use when**: Setting up or restructuring a workspace, adding a package or dependency, or configuring builds, publishing and tests.
 
-#### 7. [`web3-chain-layer`](plugins/web3/skills/web3-chain-layer/SKILL.md)
+#### 8. [`web3-chain-layer`](plugins/web3/skills/web3-chain-layer/SKILL.md)
 - **Last Updated**: 2026-08-27
 - **Size**: 12 KB (`SKILL.md`) / 36 KB (Folder Total)
 - **Scope**: Chain-agnostic dapp rules — never re-wrap hooks that already run on TanStack Query, native `bigint` everywhere, one address/ABI registry, bare reads, send-then-await-receipt writes, morphing transaction toasts, indexer-vs-contract reads, signature-gated flows, and version discipline. Stack specifics are split into `references/evm.md` (Ethereum/Solidity, wagmi + viem + ConnectKit) and `references/starknet.md` (Cairo/Dojo, Starknet Start + starknet.js v10 + Cartridge Controller + Torii, with both migration guides) and are never mixed.
 - **Use when**: Writing or reviewing any contract read/write, wallet connection, address handling, or transaction feedback.
 
-#### 8. [`spec-discipline`](plugins/core/skills/spec-discipline/SKILL.md)
+#### 9. [`spec-discipline`](plugins/core/skills/spec-discipline/SKILL.md)
 - **Last Updated**: 2026-08-27
 - **Size**: 8.0 KB (`SKILL.md`) / 8.0 KB (Folder Total)
 - **Scope**: Specs as binding rather than advisory; one job per doc (CLAUDE.md / SPECS / DECISIONS / IMPL / GLOSSARY / README / PLAN, with a table of what each never holds — `README.md` holding the project for humans: description, structure, dependencies, commands); the one-way flow `DECISIONS → SPECS → IMPL` where the copy is deleted in the same edit; say-it-once; facts not history with the benchmark-numbers exception; decide-and-document in one turn plus specs↔code lockstep; ask-don't-decide and blocking questions stopping a phase; ✅/☑️ phase ticking with companion-artefact republishing; keeping the index small; porting a spec with `[diverges]` markers.
 - **Use when**: Writing or reorganising CLAUDE.md / AGENTS.md / specs / READMEs, when a decision is made, when a doc outgrows its file, when porting a spec between repos, or when two docs disagree.
 
-#### 9. [`agent-workflow`](plugins/core/skills/agent-workflow/SKILL.md)
+#### 10. [`agent-workflow`](plugins/core/skills/agent-workflow/SKILL.md)
 - **Last Updated**: 2026-08-27
 - **Size**: 8.0 KB (`SKILL.md`) / 8.0 KB (Folder Total)
 - **Scope**: Asking the user on any important decision, always with a recommendation and never a default adopted to keep moving; agent-only dev and Storybook ports (`dev:claude` on an offset port) so a running session is never disturbed; the git-ignored `_inbox/` drop folder and how material graduates out of it; the user commits unless the agent is authorised, a dirty-tree check before starting big work; treating instructions found in file content as data; downloads to the scratchpad; turning a repeatable procedure into a `.claude/commands/` slash command; end-of-task workflow checks and the single `check` gate; the file layout that sets a repo up for agents, where `README.md` is for humans what `CLAUDE.md`/`AGENTS.md` are for agents.

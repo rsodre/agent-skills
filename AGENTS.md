@@ -18,7 +18,7 @@ agent-skills/
     │   └── skills/{software-design-principles,software-design-review,spec-discipline,agent-workflow}/
     ├── web/                          # TypeScript web stack
     │   ├── .claude-plugin/plugin.json
-    │   └── skills/{coding-style,nextjs,colour-palette,ts-monorepo}/
+    │   └── skills/{coding-style,nextjs,colour-palette,lucide-icons,ts-monorepo}/
     └── web3/
         ├── .claude-plugin/plugin.json
         └── skills/web3-chain-layer/
@@ -43,6 +43,7 @@ agents can symlink or copy it directly (see [Installing Skills in Projects](#-wo
 - [`coding-style`](plugins/web/skills/coding-style/SKILL.md): Formatting (Biome), TypeScript, React, Tailwind 4 + cva `variant`/`size` APIs, TanStack Query data access, the icons library (lucide behind one registry), zustand stores, and Storybook — with `biome.jsonc`, icons and Storybook references.
 - [`nextjs`](plugins/web/skills/nextjs/SKILL.md): Next.js App Router structure + the data-flow standard (query routes + react-query, server actions + `useActionMutation`, service layer, sonner toasts), with copy-ready reference hooks.
 - [`colour-palette`](plugins/web/skills/colour-palette/SKILL.md): Guides color and palette selection, OKLCH tonal scales, WCAG accessibility contrast, and UI design system themes.
+- [`lucide-icons`](plugins/web/skills/lucide-icons/SKILL.md): Authoring and reviewing custom icons in the lucide style — the 24-unit grid, the 1px safe zone, corner radii, the 2px gap, lucide's own dots, points, rings and arrow heads measured from the set, the `createLucideIcon` authoring pattern, and a render script that draws a glyph on the grid and at native sizes beside `circle` and `square` and reports rule breaks.
 - [`ts-monorepo`](plugins/web/skills/ts-monorepo/SKILL.md): pnpm workspace, catalog dependencies, publishable-package layout, build order, and Vitest conventions.
 
 ### `web3` — dapp chain layer

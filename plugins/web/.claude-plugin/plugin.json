@@ -1,7 +1,7 @@
 {
   "name": "web",
-  "description": "TypeScript web stack conventions: coding style (Biome/React/Tailwind 4), Next.js App Router and data flow, colour palette design, and pnpm monorepo rules.",
-  "version": "1.0.0",
+  "description": "TypeScript web stack conventions: coding style (Biome/React/Tailwind 4), Next.js App Router and data flow, colour palette design, lucide-style icon authoring, and pnpm monorepo rules.",
+  "version": "1.1.0",
   "author": {
     "name": "rsodre",
     "url": "https://github.com/rsodre"

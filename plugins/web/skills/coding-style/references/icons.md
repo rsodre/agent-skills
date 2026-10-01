@@ -52,7 +52,9 @@ export const ICON_NAMES = Object.keys(ICONS) as IconName[];
   than optional.
 - **Authoring a glyph is for a drawing the set hasn't got, never a restyle of one it has** — a set is
   a set because weight, grid and terminals agree. Author through the set's own factory
-  (`createLucideIcon`) in `custom.tsx`, and register it exactly like any other entry.
+  (`createLucideIcon`) in `custom.tsx`, and register it exactly like any other entry. **How to draw
+  one that belongs — the grid, the radii, the gaps, lucide's own dots and rings, and the review
+  sheet — is [`lucide-icons`](../../lucide-icons/SKILL.md).**
 
 ## The component — one closed signature
 

@@ -29,7 +29,7 @@
     },
     {
       "name": "web",
-      "description": "TypeScript web stack conventions: Biome/TypeScript/React/Tailwind 4 coding style, Next.js App Router structure and data flow, OKLCH colour palette design, and pnpm monorepo + publishable-package rules.",
+      "description": "TypeScript web stack conventions: Biome/TypeScript/React/Tailwind 4 coding style, Next.js App Router structure and data flow, OKLCH colour palette design, lucide-style icon authoring, and pnpm monorepo + publishable-package rules.",
       "author": {
         "name": "rsodre"
       },
