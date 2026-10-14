@@ -175,7 +175,9 @@ xcodebuild build -project App.xcodeproj -scheme App -destination 'generic/platfo
   -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID"
 ```
 
-- The key needs the App Manager or Admin role to create profiles. `.p8`, `.p12`, `.cer` and
+- The key needs the App Manager or Admin role to create profiles. That is enough for builds and
+  archives; an App Store **export** with an App Manager key needs a manually managed distribution
+  identity (`ios-release-playbook` §5). `.p8`, `.p12`, `.cer` and
   `.mobileprovision` files are git-ignored, always.
 - Certificates, profiles, bundle ids and capabilities through the API: `appstore` plugin →
   `asc-signing-setup`. Archive, export and upload: `asc-xcode-build`.

@@ -120,6 +120,25 @@ include the Duo display set to earn the "optimised for iPhone Duo" badge.
 
 1. Version and build number at upload time: `asc xcode version edit --version "1.0" --next-build-number --app "$APP_ID" --platform IOS`.
 2. Archive and export: `asc xcode archive …` then `asc xcode export … --xcodebuild-flag=-allowProvisioningUpdates` → `asc-xcode-build`.
+   - **Archive** with automatic signing works with the API key alone (pass the three
+     `-authenticationKey*` flags of `ios-xcode-cli` §7 through `--xcodebuild-flag`). Set the
+     version and build number as `MARKETING_VERSION=… CURRENT_PROJECT_VERSION=…` flags rather than
+     editing the pbxproj, so the release leaves no diff.
+   - **Export with an App Manager key fails** (verified 2026-10-14, Xcode 27.1): automatic export
+     wants Apple's cloud-managed distribution certificate, and the key has no access to it
+     ("Cloud signing permission error … No profiles for '…' were found"). Unless an Admin key is
+     used, sign the export manually: `asc certificates create --certificate-type IOS_DISTRIBUTION
+     --generate-csr --key-out dist.key …` (keep the key outside git), build a `.p12` with
+     `openssl pkcs12 -export` (macOS LibreSSL has no `-legacy`; omit it), `asc profiles create
+     --profile-type IOS_APP_STORE`, then import the `.p12` into a **temporary keychain**
+     (`security create-keychain`, `import -T /usr/bin/codesign`, `set-key-partition-list -S
+     apple-tool:,apple:`, prepend to `list-keychains -d user`, restore and delete on exit), copy
+     the profile into `~/Library/Developer/Xcode/UserData/Provisioning Profiles/<UUID>.mobileprovision`,
+     and run `xcodebuild -exportArchive` with a manual ExportOptions plist (`method`
+     `app-store-connect`, `signingStyle` `manual`, `signingCertificate` = the certificate's SHA-1,
+     `provisioningProfiles` = bundle id → profile UUID).
+   - `asc signing run` cannot do this: its only purpose is `release-testing`, and it rejects an
+     App Store profile ("provisioning profile has no registered devices").
 3. Upload and wait: `asc builds upload --app "$APP_ID" --ipa .asc/artifacts/App.ipa --wait`, or
    `asc publish testflight … --group "$GROUP_ID" --wait` → `asc-testflight-orchestration`.
 4. **Tag it:** `git tag -a "testflight/<build-number>" -m "ASC build <BUILD_ID>"` on the exact commit, and push the tag.
