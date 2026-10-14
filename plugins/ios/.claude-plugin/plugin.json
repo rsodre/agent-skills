@@ -1,7 +1,7 @@
 {
   "name": "ios",
-  "description": "Apple platform app development in Swift (SwiftUI + UIKit): building, designing and shipping apps for iPhone Duo — resizability, vertical bars, fold-aware layouts and arrangement views, hinge and multi-scene APIs, dual-display camera capture, design/UX/accessibility review, and testing and App Store launch.",
-  "version": "1.0.0",
+  "description": "Apple platform app development in Swift (SwiftUI + UIKit): building, designing and shipping apps for iPhone Duo \u2014 resizability, vertical bars, fold-aware layouts and arrangement views, hinge and multi-scene APIs, dual-display camera capture, design/UX/accessibility review, testing and App Store launch, the command-line Xcode loop (ios-xcode-cli) and an end-to-end release playbook (ios-release-playbook).",
+  "version": "1.1.0",
   "author": {
     "name": "rsodre",
     "url": "https://github.com/rsodre"

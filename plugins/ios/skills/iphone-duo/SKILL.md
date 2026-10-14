@@ -125,6 +125,8 @@ Do the steps in this order. Each step points to the skill that owns it.
 | AVFoundation on Duo: virtual front camera, direction coordinator, mirroring, rotation, teleprompter on the outer display | [`iphone-duo-camera`](../iphone-duo-camera/SKILL.md) |
 | Design principles, UX patterns, accessibility, games, design critique checklist | [`iphone-duo-design`](../iphone-duo-design/SKILL.md) |
 | Device Hub, simulator controls, the test matrix, iPhone Mirroring compatibility, App Store screenshots and badge, featuring | [`iphone-duo-testing-launch`](../iphone-duo-testing-launch/SKILL.md) |
+| Building, testing and running from the command line, own simulators, `devicectl`, API-key signing | [`ios-xcode-cli`](../ios-xcode-cli/SKILL.md) |
+| TestFlight, metadata, pricing, submission and release with the asc CLI | [`ios-release-playbook`](../ios-release-playbook/SKILL.md) → the `appstore` plugin |
 
 ## API availability at a glance
 

@@ -1,0 +1,11 @@
+{
+  "name": "appstore",
+  "description": "App Store Connect automation via the asc CLI (curated from rorkai/app-store-connect-cli-skills, MIT): command usage and auth, ID resolution, Xcode archive/export/upload, signing, build lifecycle, TestFlight, metadata sync, release flow, submission health, screenshot pipeline and resizing, and app record creation via browser automation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "rsodre",
+    "url": "https://github.com/rsodre"
+  },
+  "homepage": "https://github.com/rsodre/agent-skills/tree/main/plugins/appstore",
+  "license": "MIT"
+}

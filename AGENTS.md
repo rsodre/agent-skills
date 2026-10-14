@@ -4,14 +4,14 @@ This repository serves as a central library for agent skills and an operational 
 
 ## Repository Layout
 
-This repo is a **Claude Code plugin marketplace** (`rsodre-skills`). Skills are grouped into four
+This repo is a **Claude Code plugin marketplace** (`rsodre-skills`). Skills are grouped into five
 plugins so a project installs only what its stack needs:
 
 ```text
 agent-skills/
 ├── .claude-plugin/marketplace.json   # marketplace manifest — lists the plugins below
 └── plugins/
-    ├── all/                          # meta-plugin: depends on the four below, no skills of its own
+    ├── all/                          # meta-plugin: depends on the five below, no skills of its own
     │   └── .claude-plugin/plugin.json
     ├── core/                         # stack-agnostic engineering discipline
     │   ├── .claude-plugin/plugin.json
@@ -25,7 +25,12 @@ agent-skills/
     └── ios/                          # Swift (SwiftUI + UIKit) Apple-platform apps
         ├── .claude-plugin/plugin.json
         └── skills/{iphone-duo,iphone-duo-resizability,iphone-duo-bars,iphone-duo-fold-layouts,
-                    iphone-duo-hinge-scenes,iphone-duo-camera,iphone-duo-design,iphone-duo-testing-launch}/
+                    iphone-duo-hinge-scenes,iphone-duo-camera,iphone-duo-design,iphone-duo-testing-launch,
+                    ios-xcode-cli,ios-release-playbook}/
+    └── appstore/                     # App Store Connect via the asc CLI — curated upstream, see UPSTREAM.md
+        ├── .claude-plugin/plugin.json
+        ├── UPSTREAM.md, LICENSE
+        └── skills/asc-*/             # 12 skills copied unchanged from rorkai/app-store-connect-cli-skills
 ```
 
 Every `plugins/<group>/skills/` directory is also a plain Agent Skills directory, so non-Claude
@@ -63,7 +68,17 @@ agents can symlink or copy it directly (see [Installing Skills in Projects](#-wo
 - [`iphone-duo-hinge-scenes`](plugins/ios/skills/iphone-duo-hinge-scenes/SKILL.md): Hinge API, Split View multitasking and pinned PiP, multiple windows, scene accessories.
 - [`iphone-duo-camera`](plugins/ios/skills/iphone-duo-camera/SKILL.md): Virtual front camera, direction coordinator, mirroring by direction, rotation, preview polish, `CameraCaptureAccessory` on the outer display.
 - [`iphone-duo-design`](plugins/ios/skills/iphone-duo-design/SKILL.md): Design principles, layout patterns, toolbar/sheet/game design, accessibility, a spec template and a pose-by-pose review checklist.
+- [`ios-xcode-cli`](plugins/ios/skills/ios-xcode-cli/SKILL.md): The agent's command-line loop — project shape (thin app, synced folders, local packages), `swift test` / `xcodebuild` incl. one test and `.xcresult`, own named simulators, the Duo simulator, `simctl` / `devicectl`, API-key signing, parallel sessions, in-app smoke harness.
+- [`ios-release-playbook`](plugins/ios/skills/ios-release-playbook/SKILL.md): The order and ownership of an App Store release with asc — person-only steps marked, metadata as code, TestFlight with tag identity, promote-never-rebuild, validate, submit, release — routing each step to the `appstore` skills.
 - [`iphone-duo-testing-launch`](plugins/ios/skills/iphone-duo-testing-launch/SKILL.md): Xcode 27.1 setup and the App Resizability skill, Device Hub, iPhone Mirroring fixes, the device test plan, App Store screenshots/badge/featuring.
+
+
+### `appstore` — App Store Connect via the asc CLI (curated)
+
+Twelve `asc-*` skills copied unchanged from
+[rorkai/app-store-connect-cli-skills](https://github.com/rorkai/app-store-connect-cli-skills) (MIT)
+at a pinned commit. Never edit them in place; re-copy to update. Provenance, what was left out, and
+the sync procedure: [`plugins/appstore/UPSTREAM.md`](plugins/appstore/UPSTREAM.md).
 
 ---
 
@@ -92,7 +107,7 @@ When tasked with creating a new skill, follow these exact requirements:
 ### 1. Choose a Plugin, then Create the Directory
 
 Pick the plugin the skill belongs to — `core` (stack-agnostic), `web` (TypeScript web stack),
-`web3` (dapp chain layer), or `ios` (Swift apps for Apple platforms). If it fits none, create a new plugin (see step 4). Then create the skill
+`web3` (dapp chain layer), `ios` (Swift apps for Apple platforms), or `appstore` (curated asc skills only). If it fits none, create a new plugin (see step 4). Then create the skill
 folder under that plugin's `skills/`:
 
 ```text
@@ -167,13 +182,14 @@ in the target repo, and has a real update command.
 /plugin install web@rsodre-skills       # TypeScript / React / Next.js projects
 /plugin install web3@rsodre-skills      # dapps
 /plugin install ios@rsodre-skills       # Swift / iOS apps (iPhone Duo)
+/plugin install appstore@rsodre-skills  # App Store Connect via the asc CLI
 ```
 
 Install only what the project's stack needs — skill descriptions all load at session start, and an
 agent in a Rust repo should not be weighing whether `nextjs` applies.
 
 To install everything in one command, use the `all` meta-plugin — it carries no skills of its own,
-just a `dependencies` list, so the four real plugins are pulled in with it:
+just a `dependencies` list, so the five real plugins are pulled in with it:
 
 ```bash
 /plugin install all@rsodre-skills

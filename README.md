@@ -16,9 +16,10 @@ This repo is a **Claude Code plugin marketplace**. Add it once, then install per
 /plugin install core@rsodre-skills            # every project
 /plugin install web@rsodre-skills             # TypeScript / React / Next.js
 /plugin install web3@rsodre-skills            # dapps
-/plugin install ios@rsodre-skills             # Swift / iOS apps (iPhone Duo)
+/plugin install ios@rsodre-skills             # Swift / iOS apps (iPhone Duo, Xcode CLI, release playbook)
+/plugin install appstore@rsodre-skills        # App Store Connect via the asc CLI (curated)
 
-/plugin install all@rsodre-skills             # …or all four at once
+/plugin install all@rsodre-skills             # …or all five at once
 ```
 
 Install only what the project's stack needs — skill descriptions load at session start, so an agent
@@ -58,6 +59,9 @@ symlink or copy them. See [Installing Skills in Projects](AGENTS.md#-workflow-in
 | [`iphone-duo-camera`](plugins/ios/skills/iphone-duo-camera/SKILL.md) | `ios` | Two front cameras: virtual front camera, direction coordinator, mirroring by direction, rotation, preview polish, outer-display capture accessory. | 2026-10-14 | 11 KB (`SKILL.md`) / 11 KB (Total) |
 | [`iphone-duo-design`](plugins/ios/skills/iphone-duo-design/SKILL.md) | `ios` | Design/UX/accessibility for iPhone Duo — principles, layout patterns, toolbars, sheets, games, a11y, spec template and pose-by-pose review checklist. | 2026-10-14 | 9.0 KB (`SKILL.md`) / 13 KB (Total) |
 | [`iphone-duo-testing-launch`](plugins/ios/skills/iphone-duo-testing-launch/SKILL.md) | `ios` | Xcode 27.1 + App Resizability skill, Device Hub poses, iPhone Mirroring fixes, device test plan, App Store screenshots/badge/featuring. | 2026-10-14 | 6.0 KB (`SKILL.md`) / 6.0 KB (Total) |
+| [`ios-xcode-cli`](plugins/ios/skills/ios-xcode-cli/SKILL.md) | `ios` | The agent's local loop: thin app target + synced folders + local packages, `swift test`/`xcodebuild` (single test, `.xcresult`), own named simulators, the Duo simulator, `simctl`/`devicectl`, API-key signing, parallel sessions, in-app smoke harness. | 2026-10-14 | 11 KB (`SKILL.md`) / 11 KB (Total) |
+| [`ios-release-playbook`](plugins/ios/skills/ios-release-playbook/SKILL.md) | `ios` | End-to-end App Store order with asc: account and API key, bundle id, app record, metadata as code (asc canonical layout), pricing, availability, age rating, privacy, screenshots, TestFlight with tag identity, promote-never-rebuild, validate, submit, release — person-only steps marked; routes to the `appstore` skills. | 2026-10-14 | 9.4 KB (`SKILL.md`) / 9.4 KB (Total) |
+| [`asc-*` (12 skills)](plugins/appstore/UPSTREAM.md) | `appstore` | Curated unchanged from [rorkai/app-store-connect-cli-skills](https://github.com/rorkai/app-store-connect-cli-skills) (MIT) @ `4b496c5`: cli-usage, id-resolver, xcode-build, signing-setup, build-lifecycle, testflight-orchestration, metadata-sync, release-flow, submission-health, shots-pipeline, screenshot-resize, app-create-ui. | 2026-10-14 | — / 156 KB (Total) |
 
 ### Details
 
@@ -126,6 +130,20 @@ symlink or copy them. See [Installing Skills in Projects](AGENTS.md#-workflow-in
 - **Size**: 8 skills, ~75 KB SKILL.md total (hub 11 KB / 34 KB folder incl. `references/sources.md` and a ~140-link verified `references/api-reference.md`)
 - **Scope**: Building apps for iPhone Duo, Apple's foldable two-display iPhone, condensed from Apple's Prepare page, the technology overview, the HIG page, six iPhone Duo tech talks and two UIKit sessions (transcripts and code read in full) and ~40 API reference pages. The hub holds device facts and routes to: `iphone-duo-resizability` (code audit + `scripts/audit-resizability.sh`), `iphone-duo-bars`, `iphone-duo-fold-layouts`, `iphone-duo-hinge-scenes`, `iphone-duo-camera`, `iphone-duo-design` (non-technical design/UX/a11y with `references/review-checklist.md`) and `iphone-duo-testing-launch`. Swift, SwiftUI and UIKit side by side.
 - **Use when**: Preparing, designing, building, reviewing, testing or shipping any iOS app for iPhone Duo — or any resizable iPhone app (iPhone Mirroring, iPad).
+
+---
+
+#### 12. [`ios-xcode-cli`](plugins/ios/skills/ios-xcode-cli/SKILL.md) and [`ios-release-playbook`](plugins/ios/skills/ios-release-playbook/SKILL.md)
+- **Last Updated**: 2026-10-14
+- **Size**: 11 KB and 9.4 KB (`SKILL.md` only)
+- **Scope**: Command-line iOS work for agents. `ios-xcode-cli` is the build–test–run loop; `ios-release-playbook` is the order and ownership of a release, routing each step to the `appstore` skills. Drafted from Apple's tools, the asc docs and a shipped agent-run project; lines marked ⚠︎ are unverified on Xcode 27.1.
+- **Use when**: Building, testing, running or screenshotting an iOS app from a terminal or CI; planning or running TestFlight and App Store releases.
+
+#### 13. `appstore` plugin — curated `asc-*` skills
+- **Last Updated**: 2026-10-14
+- **Size**: 156 KB (12 skills)
+- **Scope**: App Store Connect automation through the [`asc` CLI](https://github.com/rorkai/app-store-connect-cli), copied unchanged at a pinned commit; provenance, the omitted skills and the sync procedure are in [`plugins/appstore/UPSTREAM.md`](plugins/appstore/UPSTREAM.md).
+- **Use when**: Any App Store Connect task: auth, IDs, archive/export/upload, signing assets, TestFlight, metadata, pricing, review submission and health, screenshots, app record creation.
 
 ---
 
