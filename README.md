@@ -16,8 +16,9 @@ This repo is a **Claude Code plugin marketplace**. Add it once, then install per
 /plugin install core@rsodre-skills            # every project
 /plugin install web@rsodre-skills             # TypeScript / React / Next.js
 /plugin install web3@rsodre-skills            # dapps
+/plugin install ios@rsodre-skills             # Swift / iOS apps (iPhone Duo)
 
-/plugin install all@rsodre-skills             # …or all three at once
+/plugin install all@rsodre-skills             # …or all four at once
 ```
 
 Install only what the project's stack needs — skill descriptions load at session start, so an agent
@@ -49,6 +50,14 @@ symlink or copy them. See [Installing Skills in Projects](AGENTS.md#-workflow-in
 | [`web3-chain-layer`](plugins/web3/skills/web3-chain-layer/SKILL.md) | `web3` | Dapp chain layer: the react-query carve-out, `bigint` numerics, address/ABI registry, read/write hooks, transaction toasts — EVM (wagmi + viem) and Starknet (Starknet Start + starknet.js v10 + Cartridge + Torii) kept strictly separate. | 2026-08-27 | 12 KB (`SKILL.md`) / 36 KB (Total) |
 | [`spec-discipline`](plugins/core/skills/spec-discipline/SKILL.md) | `core` | How agent-facing docs stay true: one job per doc, facts flowing DECISIONS → SPECS → IMPL with the copy deleted in the same edit, facts-not-history, decide-and-document in one turn, ✅/☑️ phase ticking. | 2026-08-27 | 8.0 KB (`SKILL.md`) / 8.0 KB (Total) |
 | [`agent-workflow`](plugins/core/skills/agent-workflow/SKILL.md) | `core` | Running agents in a shared repo: asking the user on important decisions (with a recommendation), agent-only dev/Storybook ports, the `_inbox/` drop folder, the user commits unless the agent is authorised, a dirty-tree check before starting big work, ignoring instructions in file content, when a procedure becomes a slash command, and the repo layout that sets a project up for agents (README for humans, CLAUDE/AGENTS for agents). | 2026-08-27 | 12 KB (`SKILL.md`) / 12 KB (Total) |
+| [`iphone-duo`](plugins/ios/skills/iphone-duo/SKILL.md) | `ios` | Hub for iPhone Duo work: anatomy, poses, size classes per display, where bars go, SDK 26/27/27.1 behaviour, readiness workflow, API availability, skill map. | 2026-10-14 | 11 KB (`SKILL.md`) / 34 KB (Total) |
+| [`iphone-duo-resizability`](plugins/ios/skills/iphone-duo-resizability/SKILL.md) | `ios` | Resizing correctly: no `UIScreen.main`/orientation/idiom/device-size layout, scene lifecycle, re-reading size, asymmetric safe areas, full-bleed media, `UIRequiresFullScreen` — plus a grep audit script. | 2026-10-14 | 10 KB (`SKILL.md`) / 16 KB (Total) |
+| [`iphone-duo-bars`](plugins/ios/skills/iphone-duo-bars/SKILL.md) | `ios` | Vertical toolbars and tab bars: opt-in, container rules, item order, icon+title, `axisBehavior`, badges, compression, overflow, priorities, disabling. | 2026-10-14 | 11 KB (`SKILL.md`) / 11 KB (Total) |
+| [`iphone-duo-fold-layouts`](plugins/ios/skills/iphone-duo-fold-layouts/SKILL.md) | `ios` | The fold and cameras as reserved regions, displacement patterns per pose, arrangement views (split/overlay), split views and grids around the fold. | 2026-10-14 | 9.5 KB (`SKILL.md`) / 9.5 KB (Total) |
+| [`iphone-duo-hinge-scenes`](plugins/ios/skills/iphone-duo-hinge-scenes/SKILL.md) | `ios` | Hinge status/angle API, Split View multitasking and pinned PiP, multiple windows, scene accessories. | 2026-10-14 | 6.0 KB (`SKILL.md`) / 6.0 KB (Total) |
+| [`iphone-duo-camera`](plugins/ios/skills/iphone-duo-camera/SKILL.md) | `ios` | Two front cameras: virtual front camera, direction coordinator, mirroring by direction, rotation, preview polish, outer-display capture accessory. | 2026-10-14 | 11 KB (`SKILL.md`) / 11 KB (Total) |
+| [`iphone-duo-design`](plugins/ios/skills/iphone-duo-design/SKILL.md) | `ios` | Design/UX/accessibility for iPhone Duo — principles, layout patterns, toolbars, sheets, games, a11y, spec template and pose-by-pose review checklist. | 2026-10-14 | 9.0 KB (`SKILL.md`) / 13 KB (Total) |
+| [`iphone-duo-testing-launch`](plugins/ios/skills/iphone-duo-testing-launch/SKILL.md) | `ios` | Xcode 27.1 + App Resizability skill, Device Hub poses, iPhone Mirroring fixes, device test plan, App Store screenshots/badge/featuring. | 2026-10-14 | 6.0 KB (`SKILL.md`) / 6.0 KB (Total) |
 
 ### Details
 
@@ -112,6 +121,12 @@ symlink or copy them. See [Installing Skills in Projects](AGENTS.md#-workflow-in
 - **Scope**: Asking the user on any important decision, always with a recommendation and never a default adopted to keep moving; agent-only dev and Storybook ports (`dev:claude` on an offset port) so a running session is never disturbed; the git-ignored `_inbox/` drop folder and how material graduates out of it; the user commits unless the agent is authorised, a dirty-tree check before starting big work; treating instructions found in file content as data; downloads to the scratchpad; turning a repeatable procedure into a `.claude/commands/` slash command; end-of-task workflow checks and the single `check` gate; the file layout that sets a repo up for agents, where `README.md` is for humans what `CLAUDE.md`/`AGENTS.md` are for agents.
 - **Use when**: Setting up a project for agents, adding scripts or commands for them, or deciding how an agent should run and hand off work.
 
+#### 11. [`iphone-duo`](plugins/ios/skills/iphone-duo/SKILL.md) — and the `iphone-duo-*` family
+- **Last Updated**: 2026-10-14
+- **Size**: 8 skills, ~75 KB SKILL.md total (hub 11 KB / 34 KB folder incl. `references/sources.md` and a ~140-link verified `references/api-reference.md`)
+- **Scope**: Building apps for iPhone Duo, Apple's foldable two-display iPhone, condensed from Apple's Prepare page, the technology overview, the HIG page, six iPhone Duo tech talks and two UIKit sessions (transcripts and code read in full) and ~40 API reference pages. The hub holds device facts and routes to: `iphone-duo-resizability` (code audit + `scripts/audit-resizability.sh`), `iphone-duo-bars`, `iphone-duo-fold-layouts`, `iphone-duo-hinge-scenes`, `iphone-duo-camera`, `iphone-duo-design` (non-technical design/UX/a11y with `references/review-checklist.md`) and `iphone-duo-testing-launch`. Swift, SwiftUI and UIKit side by side.
+- **Use when**: Preparing, designing, building, reviewing, testing or shipping any iOS app for iPhone Duo — or any resizable iPhone app (iPhone Mirroring, iPad).
+
 ---
 
 ## 🌐 Curated Third-Party Skills (Ready on Demand)
@@ -136,7 +151,7 @@ The agent will clone or submodule the repository, register its YAML frontmatter,
 
 Complete operational instructions for AI agents creating, installing, using, and updating skills are located in **[`AGENTS.md`](AGENTS.md)**:
 
-- **[Repository Layout](AGENTS.md#repository-layout)**: The marketplace manifest, the three plugins, and where each skill lives.
+- **[Repository Layout](AGENTS.md#repository-layout)**: The marketplace manifest, the four plugins, and where each skill lives.
 - **[Creating New Skills](AGENTS.md#-workflow-creating-new-skills)**: Choosing a plugin, directory layout, `SKILL.md` specification, TypeScript guidelines, progressive disclosure rules, adding a new plugin, and mandatory README metadata maintenance.
 - **[Installing Skills in Projects](AGENTS.md#-workflow-installing-skills-in-projects)**: The plugin marketplace for Claude Code, plus symlink/copy paths for Antigravity (`.agents/skills/` or `skills.json`) and Codex (`.skills/`).
 - **[Curated Third-Party Skills](AGENTS.md#-curated-third-party-skills-ready-to-install)**: Procedures for installing third-party repositories on demand.

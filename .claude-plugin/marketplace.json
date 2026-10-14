@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "rsodre-skills",
-  "description": "Personal agent skills library: software design principles and review, spec and agent workflow discipline, TypeScript/React/Next.js conventions, and dapp chain-layer rules.",
+  "description": "Personal agent skills library: software design principles and review, spec and agent workflow discipline, TypeScript/React/Next.js conventions, dapp chain-layer rules, and iOS (iPhone Duo) app development.",
   "owner": {
     "name": "rsodre",
     "url": "https://github.com/rsodre"
@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "all",
-      "description": "Meta-plugin: installs core, web and web3 together. Use when a project wants the whole library; otherwise install the individual plugins.",
+      "description": "Meta-plugin: installs core, web, web3 and ios together. Use when a project wants the whole library; otherwise install the individual plugins.",
       "author": {
         "name": "rsodre"
       },
@@ -39,13 +39,23 @@
     },
     {
       "name": "web3",
-      "description": "Dapp chain-layer rules: the react-query carve-out, native bigint numerics, address/ABI registry, read/write hooks and transaction toasts \u2014 EVM (wagmi + viem) and Starknet (starknet.js v10 + Cartridge + Torii) kept strictly separate.",
+      "description": "Dapp chain-layer rules: the react-query carve-out, native bigint numerics, address/ABI registry, read/write hooks and transaction toasts — EVM (wagmi + viem) and Starknet (starknet.js v10 + Cartridge + Torii) kept strictly separate.",
       "author": {
         "name": "rsodre"
       },
       "category": "development",
       "source": "./plugins/web3",
       "homepage": "https://github.com/rsodre/agent-skills/tree/main/plugins/web3"
+    },
+    {
+      "name": "ios",
+      "description": "Swift app development for Apple platforms, starting with iPhone Duo: resizability audit, vertical bars, fold-aware layouts and arrangement views, hinge and multi-scene APIs, dual-display camera capture, design/UX/accessibility review, and testing and App Store launch.",
+      "author": {
+        "name": "rsodre"
+      },
+      "category": "development",
+      "source": "./plugins/ios",
+      "homepage": "https://github.com/rsodre/agent-skills/tree/main/plugins/ios"
     }
   ]
 }

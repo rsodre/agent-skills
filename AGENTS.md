@@ -4,14 +4,14 @@ This repository serves as a central library for agent skills and an operational 
 
 ## Repository Layout
 
-This repo is a **Claude Code plugin marketplace** (`rsodre-skills`). Skills are grouped into three
+This repo is a **Claude Code plugin marketplace** (`rsodre-skills`). Skills are grouped into four
 plugins so a project installs only what its stack needs:
 
 ```text
 agent-skills/
 ├── .claude-plugin/marketplace.json   # marketplace manifest — lists the plugins below
 └── plugins/
-    ├── all/                          # meta-plugin: depends on the three below, no skills of its own
+    ├── all/                          # meta-plugin: depends on the four below, no skills of its own
     │   └── .claude-plugin/plugin.json
     ├── core/                         # stack-agnostic engineering discipline
     │   ├── .claude-plugin/plugin.json
@@ -19,9 +19,13 @@ agent-skills/
     ├── web/                          # TypeScript web stack
     │   ├── .claude-plugin/plugin.json
     │   └── skills/{coding-style,nextjs,colour-palette,lucide-icons,ts-monorepo}/
-    └── web3/
+    ├── web3/
+    │   ├── .claude-plugin/plugin.json
+    │   └── skills/web3-chain-layer/
+    └── ios/                          # Swift (SwiftUI + UIKit) Apple-platform apps
         ├── .claude-plugin/plugin.json
-        └── skills/web3-chain-layer/
+        └── skills/{iphone-duo,iphone-duo-resizability,iphone-duo-bars,iphone-duo-fold-layouts,
+                    iphone-duo-hinge-scenes,iphone-duo-camera,iphone-duo-design,iphone-duo-testing-launch}/
 ```
 
 Every `plugins/<group>/skills/` directory is also a plain Agent Skills directory, so non-Claude
@@ -50,6 +54,17 @@ agents can symlink or copy it directly (see [Installing Skills in Projects](#-wo
 
 - [`web3-chain-layer`](plugins/web3/skills/web3-chain-layer/SKILL.md): Dapp chain layer, with EVM (wagmi + viem) and Starknet (Starknet Start + starknet.js v10 + Cartridge + Torii) specifics in separate references.
 
+### `ios` — Swift apps for Apple platforms (iPhone Duo)
+
+- [`iphone-duo`](plugins/ios/skills/iphone-duo/SKILL.md): Hub — device anatomy, poses, size classes per display, where bars go, SDK 26/27/27.1 behaviour, the readiness workflow, API availability, and a map routing each task to the skills below.
+- [`iphone-duo-resizability`](plugins/ios/skills/iphone-duo-resizability/SKILL.md): Removing `UIScreen.main`, orientation, idiom and device-size layout; scene lifecycle; re-reading size; asymmetric safe areas; full-bleed media; `UIRequiresFullScreen` — with `scripts/audit-resizability.sh`.
+- [`iphone-duo-bars`](plugins/ios/skills/iphone-duo-bars/SKILL.md): Vertical toolbars/tab bars — opt-in, container rules, item order, icon+title, `axisBehavior`, badges, compression, overflow, priorities, disabling.
+- [`iphone-duo-fold-layouts`](plugins/ios/skills/iphone-duo-fold-layouts/SKILL.md): Reserved regions (fold, cameras), displacement patterns per pose, `ArrangementView` / `UIArrangementViewController`, split views and grids around the fold.
+- [`iphone-duo-hinge-scenes`](plugins/ios/skills/iphone-duo-hinge-scenes/SKILL.md): Hinge API, Split View multitasking and pinned PiP, multiple windows, scene accessories.
+- [`iphone-duo-camera`](plugins/ios/skills/iphone-duo-camera/SKILL.md): Virtual front camera, direction coordinator, mirroring by direction, rotation, preview polish, `CameraCaptureAccessory` on the outer display.
+- [`iphone-duo-design`](plugins/ios/skills/iphone-duo-design/SKILL.md): Design principles, layout patterns, toolbar/sheet/game design, accessibility, a spec template and a pose-by-pose review checklist.
+- [`iphone-duo-testing-launch`](plugins/ios/skills/iphone-duo-testing-launch/SKILL.md): Xcode 27.1 setup and the App Resizability skill, Device Hub, iPhone Mirroring fixes, the device test plan, App Store screenshots/badge/featuring.
+
 ---
 
 ## 🌐 Curated Third-Party Skills (Ready to Install)
@@ -76,8 +91,8 @@ When tasked with creating a new skill, follow these exact requirements:
 
 ### 1. Choose a Plugin, then Create the Directory
 
-Pick the plugin the skill belongs to — `core` (stack-agnostic), `web` (TypeScript web stack), or
-`web3` (dapp chain layer). If it fits none, create a new plugin (see step 4). Then create the skill
+Pick the plugin the skill belongs to — `core` (stack-agnostic), `web` (TypeScript web stack),
+`web3` (dapp chain layer), or `ios` (Swift apps for Apple platforms). If it fits none, create a new plugin (see step 4). Then create the skill
 folder under that plugin's `skills/`:
 
 ```text
@@ -113,7 +128,7 @@ Provide complete, idiomatic TypeScript examples demonstrating proper code patter
 ```
 
 ### 3. Authoring Guidelines
-- **TypeScript First**: All code snippets, type definitions, and boundary handling MUST use TypeScript.
+- **TypeScript First**: All code snippets, type definitions, and boundary handling MUST use TypeScript — except in the `ios` plugin, whose skills use Swift (SwiftUI and UIKit side by side).
 - **Progressive Disclosure**: Keep `SKILL.md` under 500 lines. Place detailed docs in `references/` and link to them.
 - **Single Source of Truth**: Never duplicate instructions across skills. Reference canonical skills directly (e.g. `[software-design-principles](../software-design-principles/SKILL.md)`).
 - **Agent Agnostic**: Avoid system-specific assumptions; use standard Markdown and standard shell commands.
@@ -151,13 +166,14 @@ in the target repo, and has a real update command.
 /plugin install core@rsodre-skills      # every project
 /plugin install web@rsodre-skills       # TypeScript / React / Next.js projects
 /plugin install web3@rsodre-skills      # dapps
+/plugin install ios@rsodre-skills       # Swift / iOS apps (iPhone Duo)
 ```
 
 Install only what the project's stack needs — skill descriptions all load at session start, and an
 agent in a Rust repo should not be weighing whether `nextjs` applies.
 
 To install everything in one command, use the `all` meta-plugin — it carries no skills of its own,
-just a `dependencies` list, so the three real plugins are pulled in with it:
+just a `dependencies` list, so the four real plugins are pulled in with it:
 
 ```bash
 /plugin install all@rsodre-skills
